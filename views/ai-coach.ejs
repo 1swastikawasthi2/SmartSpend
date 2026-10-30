@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Financial Coach</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Smart AI Financial Coach</h1>
+            <a href="/" class="btn">Back to Dashboard</a>
+        </header>
+
+        <div class="stats-card" style="margin-top: 20px;">
+            <h3>Financial Overview</h3>
+            <p><strong>Total Spent:</strong> ₹<%= totalSpent.toFixed(2) %></p>
+            <p><strong>Budget Limit:</strong> ₹<%= budgetLimit %></p>
+        </div>
+
+        <div class="card" style="margin-top: 20px; padding: 20px; background: #fff; border-radius: 8px;">
+            <h3>Your Personalized AI Insights & Tips:</h3>
+            <div style="white-space: pre-line; margin-top: 15px; font-size: 16px; line-height: 1.6;">
+                <%= aiAdvice %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

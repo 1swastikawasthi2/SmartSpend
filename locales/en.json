@@ -1,0 +1,13 @@
+{
+  "title": "Smart Budget Guardian",
+  "totalExpenses": "Total Expenses",
+  "recentTransactions": "Recent Transactions",
+  "splitBill": "Roommate Bill Splitter",
+  "add": "Add",
+  "receipt": "Receipt",
+  "date": "Date",
+  "vendor": "Vendor",
+  "category": "Category",
+  "amount": "Amount",
+  "action": "Action"
+}

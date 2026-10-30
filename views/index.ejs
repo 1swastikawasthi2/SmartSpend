@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartSpend AI - Dashboard</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 SmartSpend AI Dashboard</h1>
+            <a href="/add" class="btn btn-primary">➕ Upload New Receipt</a>
+            <div style="margin: 10px 0;">
+              <a href="/ai-coach" class="btn" style="background-color: #8b5cf6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+    🤖 Ask AI Financial Coach
+</a>
+    <a href="/change-lang/en" class="btn" style="background-color: #b44f4f; padding: 5px 10px; font-size: 14px;">English</a>
+    <a href="/change-lang/hi" class="btn" style="background-color: #941f1f; padding: 5px 10px; font-size: 14px;">हिंदी</a>
+</div>
+</header>
+<div class="chat-container">
+    <div id="chatBox" class="chat-box" style="height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding:10px;width:25%; margin-bottom: 10px; height:40rem; margin-left:75rem;">
+        <div class="message-ai-message">Hello! Main aapka AI Financial Coach hoon. Aap mujhse apne kharcho ya budget ke baare me pooch sakte hain.</div>
+    </div>
+    <input type="text" id="userInput" placeholder="Type your message..." style="width:20%; margin-left: 70rem; padding: 8px;"></div>
+    <div><button onclick="sendMessage()" style="padding: 8px 15px; margin-left: 85rem;margin-top:-75rem; ">Send</button>
+    
+
+<script>async function sendMessage() {
+    const inputField = document.getElementById('userInput');
+    const chatBox = document.getElementById('chatBox');
+    const userMessage = inputField.value.trim();
+
+    if (!userMessage) return;
+
+    // User message screen par add karein
+    chatBox.innerHTML += `<div style="text-align: right; margin: 5px; color: blue;"><b>You:</b> ${userMessage}</div>`;
+    inputField.value = '';
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: userMessage })
+        });
+        
+        const data = await res.json();
+
+        // AI ka reply screen par add karein
+        chatBox.innerHTML += `<div style="text-align: left; margin: 5px; color: green;"><b>AI Coach:</b> ${data.reply}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (err) {
+        console.error(err);
+        chatBox.innerHTML += `<div style="color: red;">Error connecting to chatbot.</div>`;
+    }
+}
+</script>
+</div>
+<div>
+<div><button id="shareButton" class="share-btn">Share Dashboard</button>
+<script>document.getElementById('shareButton').addEventListener('click', async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: 'SmartSpend AI Dashboard',
+        text: 'Yahan mera current expenses aur roommate bill split data dekhein. Total Expenses: ₹925.00',
+        url: window.location.href,
+      });
+    } catch (error) {
+      console.log('Error sharing:', error);
+    }
+  } else {
+    alert('Web Share API is not supported on this browser.');
+  }
+});
+</script>
+<div class="b" style="margin-top:-50rem";>
+</div>
+        </header>
+        <a href="/budget" class="btn" style="background-color:#4f46e5;color:white;">Campus Budget</a>"
+        <a href="/split" class="btn" style="background-color: #10b981; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">
+        <%= __('splitBill')%>
+</a>
+
+        <!-- 👉 YAHAN SMART BUDGET GUARDIAN ALERT BANNER ADD KAREIN -->
+        <div id="budget-alert-box" style="visibility: hidden; opacity: 0; transition: all 0.3s ease; padding: 12px; margin-bottom: 20px; border-radius: 8px;"></div>
+<div class="a" style="width:90%">
+        <div class="stats-card">
+            <h3><%= __('totalExpenses') %></h3>
+            <h2>₹<%= totalSpent.toFixed(2) %></h2>
+        </div>
+        <div class="card">
+            <h2><%= __('recentTransactions') %></h2>
+            <table>
+                <thead>
+    <tr>
+        <th><%= __('receipt') %></th>
+        <th><%= __('date') %></th>
+        <th><%= __('vendor') %></th>
+        <th><%= __('category') %></th>
+        <th><%= __('amount') %></th>
+        <th><%= __('action') %></th>
+    </tr>
+</thead>
+                <tbody>
+                    <% if (transactions.length === 0) { %>
+                        <tr><td colspan="5" style="text-align: center;">No transactions found. Upload your first receipt</td></tr>
+                    <% } else { %>
+                        <% transactions.forEach(t => { %>
+                            <tr>
+                                <td>
+                                    <% if (t.imagePath) { %>
+                                        <img src="<%= t.imagePath %>" width="50" style="border-radius: 4px; object-fit: cover;">
+                                    <% } else { %>
+                                        N/A
+                                    <% } %>
+                                </td>
+                                <td><%= t.date %></td>
+                                <td><strong><%= t.vendorName %></strong></td>
+                                <td><span class="badge"><%= t.category %></span></td>
+                                <td>₹<%= t.totalAmount.toFixed(2) %></td>
+                                <td><a href="/delete/<%=t._id%>" style="color:red; text-decoration:none;">Delete</a></td>
+                            </tr>
+                        <% }) %>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- 👉 BUDGET CHECK SCRIPT -->
+    <script>
+        async function checkBudgetGuardian() {
+            try {
+                const response = await fetch('/api/budget-status');
+                const data = await response.json();
+                
+                const alertBox = document.getElementById('budget-alert-box');
+                const alertText = document.getElementById('alert-text');
+
+                if (data.alertMessage) {
+                    alertBox.style.visibility = 'visible';
+                    alertBox.style.opacity='1';
+                    alertText.innerText = data.alertMessage;
+                    
+                    if (data.alertType === 'danger') {
+                        alertBox.style.backgroundColor = '#ffdddd';
+                        alertBox.style.color = '#d9534f';
+                        alertBox.style.border = '1px solid #ebccd1';
+                    } else if (data.alertType === 'warning') {
+                        alertBox.style.backgroundColor = '#fcf8e3';
+                        alertBox.style.color = '#f0ad4e';
+                        alertBox.style.border = '1px solid #faebcc';
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching budget status:", error);
+            }
+        }
+
+        checkBudgetGuardian();
+    </script>
+    </div>
+</body>
+</html>

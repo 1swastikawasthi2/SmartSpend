@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Campus Life Budgeting</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>🎓 Campus Life Budget Planner</h2>
+        
+        <form action="/budget/update" method="POST" class="budget-form">
+            <div class="form-group">
+                <label>Total Monthly Allowance / Limit (₹):</label>
+                <input type="number" name="monthlyLimit" value="<%= budget.monthlyLimit %>" required>
+            </div>
+
+            <h3>Category Breakdown</h3>
+            
+            <div class="form-group">
+                <label>🍔 Canteen & Mess:</label>
+                <input type="number" name="foodCanteen" value="<%= budget.categoryLimits.foodCanteen %>">
+            </div>
+
+            <div class="form-group">
+                <label>🏠 PG / Hostel Rent:</label>
+                <input type="number" name="rentHostel" value="<%= budget.categoryLimits.rentHostel %>">
+            </div>
+
+            <div class="form-group">
+                <label>📚 Books & Stationery:</label>
+                <input type="number" name="booksSupplies" value="<%= budget.categoryLimits.booksSupplies %>">
+            </div>
+
+            <div class="form-group">
+                <label>🚌 Metro / Auto Commute:</label>
+                <input type="number" name="travelCommute" value="<%= budget.categoryLimits.travelCommute %>">
+            </div>
+
+            <div class="form-group">
+                <label>🎉 Outings & Campus Events:</label>
+                <input type="number" name="outingFun" value="<%= budget.categoryLimits.outingFun %>">
+            </div>
+
+            <button type="submit" class="btn">Save Campus Budget</button>
+        </form>
+    </div>
+</body>
+</html>

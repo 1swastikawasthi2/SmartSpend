@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Receipt - SmartSpend AI</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container form-container">
+    <h1>📤 Upload Receipt / Bill</h1>
+    <p>AI will automatically scan and extract vendor, date, and amount!</p>
+    
+    <form action="/add" method="POST" enctype="multipart/form-data" onsubmit="showLoader()">
+      <div class="file-drop">
+        <input type="file" name="receipt" accept="image/*" required />
+      </div>
+      <button type="submit" class="btn" id="submitBtn">Process with AI & Save</button>
+      <a href="/" class="back-link">Back to Dashboard</a>
+    </form>
+
+    <div id="loader" class="hidden">
+      <p>🤖 AI is reading your receipt and saving to MongoDB... Please wait.</p>
+    </div>
+  </div>
+
+  <script>
+    function showLoader() {
+      document.getElementById('submitBtn').style.display = 'none';
+      document.getElementById('loader').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
